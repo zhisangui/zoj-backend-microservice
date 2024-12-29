@@ -1,0 +1,41 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Prod Env  ###
+zoj-backend-judge-service/src/main/resources/application-prod.yml
+zoj-backend-question-service/src/main/resources/application-prod.yml
+zoj-backend-user-service/src/main/resources/application-prod.yml
+zoj-backend-gateway/src/main/resources/application-prod.yml
+docker-compose.env.yml
+docker-compose.service.yml
