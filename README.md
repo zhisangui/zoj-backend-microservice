@@ -32,7 +32,7 @@ ZOJ 在线判题系统是一个集成化的编程学习和竞赛平台，旨在�
 |          技术          | 说明                | 官网                                                                                       |
 |:--------------------:|-------------------|------------------------------------------------------------------------------------------|
 |      SpringBoot      | web开发必备框架         | [https://spring.io/projects/spring-boot](https://spring.io/projects/spring-boot)         |
-| Spring Cloud Alibaba | 简化代码              | [https://sca.aliyun.com/](https://sca.aliyun.com/)                                       |
+| Spring Cloud Alibaba | 简化分布式系统的开发与部署              | [https://sca.aliyun.com/](https://sca.aliyun.com/)                                       |
 |       MyBatis        | ORM框架             | http://www.mybatis.org/mybatis-3/zh/index.html                                           |
 |     MyBatisPlus      | 零sql，简化数据库操作，分页插件 | [https://baomidou.com/](https://baomidou.com/)                                           |
 |        Mysql         | 数据库               | [https://www.mysql.com/cn/](https://www.mysql.com/cn/)                                                     |
