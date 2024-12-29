@@ -11,7 +11,6 @@
     <a href="https://github.com/zhisangui/zoj-backend-microservice"><img src="https://img.shields.io/badge/github-项目地址-yellow.svg?style=plasticr"></a>
     <a href="https://github.com/zhisangui/zoj-frontend"><img src="https://img.shields.io/badge/前端-项目地址-blueviolet.svg?style=plasticr"></a>
     <a href="https://github.com/zhisangui/zoj-backend-microservice/blob/main/LICENSE" target="_blank">
-
         <img alt="License: Apache-2.0" src="https://img.shields.io/badge/License-Apache--2.0-blue.svg">
     </a> 
 
