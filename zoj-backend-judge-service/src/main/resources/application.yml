@@ -70,12 +70,7 @@ mybatis-plus:
 code:
   sandbox:
     remote
-remote:
-  codesandbox:
-    host:
-      localhost
-    port:
-      8081
+
 
 # 对象存储
 # todo 需替换配置
