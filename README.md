@@ -1,6 +1,6 @@
 <p align="center">
     <a href="" target="_blank">
-      <img src="https://oj.nmsl.us/img/oj-logo.2d64644b.png" width="280" />
+      <img src="./images/img.png" width="280" />
     </a>
 </p>
 
@@ -21,7 +21,7 @@
 
 
 # 项目导航
-* **快速体验地址**: [https://oj.nmsl.us](https://oj.nmsl.us)
+* **快速体验地址**: [https://oj.nmsl.us](https://oj.nmsl.us)\[因成本问题，目前已经关闭~]
 - **前端项目仓库**：[zoj-frontend](https://github.com/zhisangui/zoj-frontend)
 
 # 项目介绍
