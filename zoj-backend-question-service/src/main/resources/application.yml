@@ -75,3 +75,10 @@ code:
 # 接口文档配置
 knife4j:
   enable: true
+
+# AI 配置
+ai:
+  zhipu:
+    api-key: ${ZHIPU_API_KEY:}
+    model: ${ZHIPU_MODEL:glm-4.7}
+    fallback-model: ${ZHIPU_FALLBACK_MODEL:glm-4.5-air}

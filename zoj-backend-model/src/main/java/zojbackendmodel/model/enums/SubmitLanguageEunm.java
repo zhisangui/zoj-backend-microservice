@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public enum SubmitLanguageEunm {
 
     JAVA("java", "java"),
-    GOLANG("golang", "golang"),
     CPLUSPLUS("c++", "c++"),
     PYTHON("python", "python");
 

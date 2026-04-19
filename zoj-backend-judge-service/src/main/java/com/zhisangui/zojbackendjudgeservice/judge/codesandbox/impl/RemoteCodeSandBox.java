@@ -21,7 +21,7 @@ public class RemoteCodeSandBox implements CodeSandBox {
         String jsonStr = JSONUtil.toJsonStr(executeCodeRequest);
         // ★ 注意上线的时候以下ip必须修改
 //        String body = HttpUtil.createPost("http://103.73.66.197:8081/executeCode").body(jsonStr).execute().body();
-        String body = HttpUtil.createPost("http://localhost:8081/executeCode").body(jsonStr).execute().body();
+        String body = HttpUtil.createPost("http://192.168.74.129:8081/executeCode").body(jsonStr).execute().body();
         System.out.println("jsonStr:" + jsonStr);
         System.out.println(body);
         return JSONUtil.toBean(body, ExecuteCodeResponse.class);

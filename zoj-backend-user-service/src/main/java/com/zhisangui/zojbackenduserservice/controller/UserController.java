@@ -9,6 +9,7 @@ import com.zhisangui.zojbackendcommon.common.ResultUtils;
 import com.zhisangui.zojbackendcommon.constant.UserConstant;
 import com.zhisangui.zojbackendcommon.exception.BusinessException;
 import com.zhisangui.zojbackendcommon.exception.ThrowUtils;
+import com.zhisangui.zojbackendserviceclient.service.QuestionFeignClient;
 import com.zhisangui.zojbackenduserservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -18,10 +19,16 @@ import org.springframework.web.bind.annotation.*;
 import zojbackendmodel.model.dto.user.*;
 import zojbackendmodel.model.entity.User;
 import zojbackendmodel.model.vo.LoginUserVO;
+import zojbackendmodel.model.vo.UserStatisticsVO;
 import zojbackendmodel.model.vo.UserVO;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.zhisangui.zojbackenduserservice.service.impl.UserServiceImpl.SALT;
@@ -39,6 +46,9 @@ public class UserController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private QuestionFeignClient questionFeignClient;
 
     /**
      * 用户注册
@@ -107,6 +117,29 @@ public class UserController {
     public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
         User user = userService.getLoginUser(request);
         return ResultUtils.success(userService.getLoginUserVO(user));
+    }
+
+    /**
+     * 获取当前登录用户统计信息
+     */
+    @GetMapping("/statistics")
+    public BaseResponse<UserStatisticsVO> getUserStatistics(HttpServletRequest request) {
+        User loginUser = userService.getLoginUser(request);
+        Long userId = loginUser.getId();
+
+        long totalSubmissions = defaultZero(questionFeignClient.countTotalSubmissionsByUserId(userId));
+        long acceptedSubmissions = defaultZero(questionFeignClient.countAcceptedSubmissionsByUserId(userId));
+        long totalQuestions = defaultZero(questionFeignClient.countTotalQuestionsByUserId(userId));
+        long acceptedQuestions = defaultZero(questionFeignClient.countAcceptedQuestionsByUserId(userId));
+
+        UserStatisticsVO statisticsVO = new UserStatisticsVO();
+        statisticsVO.setLoginDays(calcLoginDays(loginUser));
+        statisticsVO.setTotalSubmissions(totalSubmissions);
+        statisticsVO.setAcceptedSubmissions(acceptedSubmissions);
+        statisticsVO.setSuccessRate(calcSuccessRate(acceptedSubmissions, totalSubmissions));
+        statisticsVO.setTotalQuestions(totalQuestions);
+        statisticsVO.setAcceptedQuestions(acceptedQuestions);
+        return ResultUtils.success(statisticsVO);
     }
 
     // endregion
@@ -274,5 +307,30 @@ public class UserController {
         return ResultUtils.success(true);
     }
 
+    private long defaultZero(Long value) {
+        return value == null ? 0L : value;
+    }
+
+    private Integer calcLoginDays(User user) {
+        if (user == null || user.getCreateTime() == null) {
+            return 0;
+        }
+        LocalDate createDate = user.getCreateTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate today = LocalDate.now();
+        long days = ChronoUnit.DAYS.between(createDate, today) + 1;
+        if (days <= 0) {
+            return 1;
+        }
+        return (int) days;
+    }
+
+    private Double calcSuccessRate(long acceptedSubmissions, long totalSubmissions) {
+        if (totalSubmissions <= 0) {
+            return 0.0;
+        }
+        BigDecimal numerator = BigDecimal.valueOf(acceptedSubmissions * 100.0);
+        BigDecimal denominator = BigDecimal.valueOf(totalSubmissions);
+        return numerator.divide(denominator, 1, RoundingMode.HALF_UP).doubleValue();
+    }
 
 }

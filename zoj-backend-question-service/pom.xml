@@ -54,6 +54,11 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
             <version>2.7.6</version>
         </dependency>
+        <dependency>
+            <groupId>ai.z.openapi</groupId>
+            <artifactId>zai-sdk</artifactId>
+            <version>0.3.3</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

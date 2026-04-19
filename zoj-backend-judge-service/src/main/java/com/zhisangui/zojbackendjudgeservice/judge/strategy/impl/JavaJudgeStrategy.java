@@ -61,7 +61,6 @@ public class JavaJudgeStrategy implements JudgeStrategy {
                 .map(JudgeCase::getOutput)
                 .collect(Collectors.toList());
         List<String> outputs = executeCodeResponse.getOutputs();
-        System.out.println("11111111111111111111111111");
         // todo，格式问题
         // 答案最后有无换行都可以
         ansOutputs = ansOutputs.stream().map(output -> output.replaceAll("\\n$", "").replaceAll(" ", "")).collect(Collectors.toList());

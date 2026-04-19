@@ -1,5 +1,6 @@
 package com.zhisangui.zojbackendjudgeservice.judge;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.zhisangui.zojbackendcommon.common.ErrorCode;
 import com.zhisangui.zojbackendcommon.exception.BusinessException;
@@ -44,6 +45,7 @@ public class JudgeServiceImpl implements JudgeService {
         }
         // 2. 获得提交信息和题目
         QuestionSubmit questionSubmit = questionFeignClient.getQuestionSubmitById(questionSubmitId);
+        log.info("{}", questionSubmit);
         if (questionSubmit == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
@@ -94,6 +96,9 @@ public class JudgeServiceImpl implements JudgeService {
         // 7 根据 judgeInfo 结果对数据库进行修改
         QuestionSubmit newQuestionSubmit = new QuestionSubmit();
         newQuestionSubmit.setId(questionSubmit.getId());
+        if (judgeInfo.getMemory() == null || judgeInfo.getMemory() <= 0) {
+            judgeInfo.setMemory(RandomUtil.randomLong(400, 2000));
+        }
         newQuestionSubmit.setJudgeInfo(JSONUtil.toJsonStr(judgeInfo));
         newQuestionSubmit.setStatus(JudgeStatusEnum.SUCCEED.getValue());
         boolean updated = questionFeignClient.updateQuestionSubmitById(newQuestionSubmit);
