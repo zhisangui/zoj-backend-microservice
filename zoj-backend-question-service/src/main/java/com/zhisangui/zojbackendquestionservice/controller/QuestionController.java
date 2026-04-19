@@ -10,6 +10,7 @@ import com.zhisangui.zojbackendcommon.common.ResultUtils;
 import com.zhisangui.zojbackendcommon.constant.UserConstant;
 import com.zhisangui.zojbackendcommon.exception.BusinessException;
 import com.zhisangui.zojbackendcommon.exception.ThrowUtils;
+import com.zhisangui.zojbackendquestionservice.service.AiAssistService;
 import com.zhisangui.zojbackendquestionservice.service.QuestionService;
 import com.zhisangui.zojbackendquestionservice.service.QuestionSubmitService;
 import com.zhisangui.zojbackendserviceclient.service.UserFeignClient;
@@ -47,6 +48,10 @@ public class QuestionController {
 
     @Resource
     private QuestionSubmitService questionSubmitService;
+
+    @Resource
+    private AiAssistService aiAssistService;
+
     // region 增删改查
 
     /**
@@ -293,6 +298,27 @@ public class QuestionController {
         }
         boolean result = questionService.updateById(question);
         return ResultUtils.success(result);
+    }
+
+    /**
+     * AI 辅助分析题目
+     */
+    @PostMapping("/ai_assist")
+    public BaseResponse<String> aiAssist(@RequestBody QuestionAiAssistRequest aiAssistRequest,
+                                         HttpServletRequest request) {
+        if (aiAssistRequest == null || aiAssistRequest.getQuestionId() == null || aiAssistRequest.getQuestionId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        // 登录校验（与文档中 Cookie 登录态一致）
+        userFeignClient.getLoginUser(request);
+
+        Question question = questionService.getById(aiAssistRequest.getQuestionId());
+        if (question == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+
+        String markdown = aiAssistService.generateAssistMarkdown(question);
+        return ResultUtils.success(markdown);
     }
 
     /**

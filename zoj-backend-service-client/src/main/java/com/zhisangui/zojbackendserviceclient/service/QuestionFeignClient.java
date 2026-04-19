@@ -40,4 +40,28 @@ public interface QuestionFeignClient {
     @PostMapping("/update")
     boolean updateQuestionById(@RequestBody Question question);
 
+    /**
+     * 统计用户总提交次数
+     */
+    @GetMapping("/statistics/submissions/total")
+    Long countTotalSubmissionsByUserId(@RequestParam("userId") Long userId);
+
+    /**
+     * 统计用户成功提交次数（判题成功）
+     */
+    @GetMapping("/statistics/submissions/accepted")
+    Long countAcceptedSubmissionsByUserId(@RequestParam("userId") Long userId);
+
+    /**
+     * 统计用户尝试过的题目总数（按题目去重）
+     */
+    @GetMapping("/statistics/questions/total")
+    Long countTotalQuestionsByUserId(@RequestParam("userId") Long userId);
+
+    /**
+     * 统计用户成功解答的题目总数（按题目去重）
+     */
+    @GetMapping("/statistics/questions/accepted")
+    Long countAcceptedQuestionsByUserId(@RequestParam("userId") Long userId);
+
 }
